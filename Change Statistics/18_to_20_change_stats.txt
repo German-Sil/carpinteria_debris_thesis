@@ -1,0 +1,55 @@
+
+Pixel Counts
+ 	Bare Soil	High Marsh	Mid Marsh	Senesced	Subtidal	Row Total	Class Total	
+Unclassified	       0	       0	       0	       0	       0	       0	       0	
+Bare Soil	     486	      13	     220	     147	     258	    1124	    1124	
+High Marsh	      12	    2192	     719	      42	       9	    2974	    2974	
+Mid Marsh	     505	     496	    2198	     227	     267	    3693	    3693	
+Senesced	     113	      10	      98	     833	      49	    1103	    1104	
+Subtidal	      58	      36	     174	       8	     372	     648	     648	
+Class Total	    1174	    2747	    3409	    1257	     955	       0	       0	
+Class Changes	     688	     555	    1211	     424	     583	       0	       0	
+Image Difference	     -50	     227	     284	    -153	    -307	       0	       0	
+
+Percentages
+ 	Bare Soil	High Marsh	Mid Marsh	Senesced	Subtidal	Row Total	Class Total	
+Unclassified	   0.000	   0.000	   0.000	   0.000	   0.000	   0.000	   0.000	
+Bare Soil	  41.397	   0.473	   6.454	  11.695	  27.016	 100.000	 100.000	
+High Marsh	   1.022	  79.796	  21.091	   3.341	   0.942	 100.000	 100.000	
+Mid Marsh	  43.015	  18.056	  64.476	  18.059	  27.958	 100.000	 100.000	
+Senesced	   9.625	   0.364	   2.875	  66.269	   5.131	  99.909	 100.000	
+Subtidal	   4.940	   1.311	   5.104	   0.636	  38.953	 100.000	 100.000	
+Class Total	 100.000	 100.000	 100.000	 100.000	 100.000	   0.000	   0.000	
+Class Changes	  58.603	  20.204	  35.524	  33.731	  61.047	   0.000	   0.000	
+Image Difference	  -4.259	   8.264	   8.331	 -12.172	 -32.147	   0.000	   0.000	
+
+Area (Square Meters)
+ 	Bare Soil	High Marsh	Mid Marsh	Senesced	Subtidal	Row Total	Class Total	
+Unclassified	      0.00	      0.00	      0.00	      0.00	      0.00	      0.00	      0.00	
+Bare Soil	  48600.00	   1300.00	  22000.00	  14700.00	  25800.00	 112400.00	 112400.00	
+High Marsh	   1200.00	 219200.00	  71900.00	   4200.00	    900.00	 297400.00	 297400.00	
+Mid Marsh	  50500.00	  49600.00	 219800.00	  22700.00	  26700.00	 369300.00	 369300.00	
+Senesced	  11300.00	   1000.00	   9800.00	  83300.00	   4900.00	 110300.00	 110400.00	
+Subtidal	   5800.00	   3600.00	  17400.00	    800.00	  37200.00	  64800.00	  64800.00	
+Class Total	 117400.00	 274700.00	 340900.00	 125700.00	  95500.00	      0.00	      0.00	
+Class Changes	  68800.00	  55500.00	 121100.00	  42400.00	  58300.00	      0.00	      0.00	
+Image Difference	  -5000.00	  22700.00	  28400.00	 -15300.00	 -30700.00	      0.00	      0.00	
+
+Reference
+
+Initial State Image: C:\Users\German\Desktop\Thesis\End Products\nov_18
+  Dimensions: (1:176, 1:118), Band 1, Pixel Size: (10.00, 10.00) Meters
+
+Final State Image: C:\Users\German\Desktop\Thesis\End Products\Nov_class_2020.envi
+  Dimensions: (1:176, 1:118), Band 1, Pixel Size: (10.00, 10.00) Meters
+
+Equivalent Class Pairings
+  Bare Soil <==> Bare Soil
+  High Marsh <==> High Marsh
+  Mid Marsh <==> Mid Marsh
+  Senesced <==> Senesced
+  Subtidal <==> Subtidal
+
+Report Produced on: Mon Apr 05 20:24:43 2021
+
+

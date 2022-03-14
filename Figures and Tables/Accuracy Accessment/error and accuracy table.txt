@@ -1,0 +1,28 @@
+Nov. 17								Jan. 18						
+	Bare Soil	High Marsh	Mid Marsh	Senesced Veg.	Subtidal/Water	User's Error			Bare Soil	High Marsh	Mid Marsh	Senesced Veg.	Subtidal/Water	User's Error
+Bare Soil	49	0	2	0	0	0.03921569		Bare Soil	78	0	1	0	0	0.01265823
+High Marsh	0	112	0	0	0	0		High Marsh	0	59	1	0	0	0.01666667
+Mid Marsh	0	0	80	0	0	0		Mid Marsh	3	2	34	0	2	0.17073171
+Senesced Veg.	0	0	1	55	0	0.01785714		Senesced Veg.	0	0	0	47	0	0
+Subtidal/Water	0	0	0	0	79	0		Subtidal/Water	1	1	4	0	24	0.2
+Producer's Error	0	0	0.036144578	0	0			Producer's Error	0.048780488	0.048387097	0.15	0	0.076923077	
+	mtry								mtry					
+	mtry	Accuracy	Kappa	AccuracySD	KappaSD				mtry	Accuracy	Kappa	AccuracySD	KappaSD	
+1	2	0.9944266	0.9928624	0.00647257	0.008277264			1	2	0.9172968	0.8930668	0.02035939	0.02645464	
+2	4	0.9889336	0.9858201	0.01045525	0.013348661			2	5	0.9203775	0.8970671	0.02575138	0.03328449	
+3	7	0.9804847	0.9750409	0.01498568	0.019107141			3	8	0.9154432	0.8907413	0.02569887	0.03303982	
+														
+														
+Nov. 18								Nov. 20						
+	Bare Soil	High Marsh	Mid Marsh	Senesced Veg.	Subtidal/Water	User's Error			Bare Soil	High Marsh	Mid Marsh	Senesced Veg.	Subtidal/Water	User's Error
+Bare Soil	61	0	4	3	0	0.10294118		Bare Soil	77	0	1	1	3	0.06097561
+High Marsh	0	149	0	0	0	0		High Marsh	0	173	1	0	0	0.005747126
+Mid Marsh	2	0	129	0	2	0.03007519		Mid Marsh	0	1	119	0	6	0.055555556
+Senesced Veg.	1	0	0	52	0	0.01886792		Senesced Veg.	0	0	0	107	0	0
+Subtidal/Water	2	0	5	1	67	0.10666667		Subtidal/Water	0	0	6	0	92	0.06122449
+Producer's Error	0.075757576	0	0.065217391	0.071428571	0.028985507			Producer's Error	0	0.005747126	0.062992126	0.009259259	0.089108911	
+	mtry								mtry					
+	mtry	Accuracy	Kappa	AccuracySD	KappaSD				mtry	Accuracy	Kappa	AccuracySD	KappaSD	
+1	2	0.9564243	0.9431746	0.01294372	0.01645829			1	2	0.9632197	0.9530614	0.01158068	0.01481611	
+2	4	0.9514497	0.9366465	0.01311751	0.01679813			2	4	0.9586532	0.9472339	0.01287379	0.01651967	
+								3	7	0.9446681	0.9294575	0.01555006	0.01970101	
