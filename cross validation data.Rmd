@@ -1,0 +1,135 @@
+---
+title: "Test"
+author: "German Silva"
+date: "3/16/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(raster)
+library(rgdal)
+library(caret)
+library(snow)
+library(tidyverse)
+library(wvtool)
+library(randomForest)
+library(calecopal)
+library(here)
+
+set.seed(123)
+```
+
+```{r}
+# read in the data
+stack_2020 <- brick(here("data", "2020", "11-November", "Nov_2020_stack.tif"))
+
+trainData <- shapefile(here("data", "2020", "11-November", "Training.shp"))
+```
+
+
+```{r}
+dfAll_2020 = data.frame()
+for (i in 1:length(unique(trainData[["Id"]]))){
+  category <- unique(trainData[["Id"]])[i]
+  categorymap <- trainData[trainData[["Id"]] == category,]
+  dataSet <- raster::extract(stack_2020, categorymap)
+  dataSet <- sapply(dataSet, function(x) {cbind(x, class = rep(categorymap[["Id"]], nrow(x)))})
+  df <- do.call('rbind', dataSet)
+  dfAll_2020 <- rbind(dfAll_2020, df)
+}
+```
+
+```{r}
+dfAll_2020 <- as.data.frame(dfAll_2020)
+dfAll_2020 <- drop_na(dfAll_2020)
+
+modfit_rf_cv <- train(as.factor(class)~., method = "rf", data = dfAll_2020, trControl = trainControl(method = "cv", number = 10))
+
+beginCluster()
+preds_rf <- clusterR(stack_2020, raster::predict, args = list(model = modfit_rf_cv))
+endCluster()
+
+plot(preds_rf)
+```
+
+```{r}
+modfit_rf_cv[["results"]]
+```
+
+```{r}
+modfit_rf_cv[["resample"]]
+```
+
+```{r}
+# read in the data
+stack_nov_2018 <- brick(here("data", "2018", "11-November", "11-03", "Indices", "Nov_2018_stack.tif"))
+
+trainData_nov_2018 <- shapefile(here("data",  "2018", "11-November", "11-03", "Indices", "Training.shp"))
+```
+
+
+```{r warning=FALSE}
+dfAll_nov_2018 = data.frame()
+for (i in 1:length(unique(trainData_nov_2018[["Id"]]))){
+  category <- unique(trainData_nov_2018[["Id"]])[i]
+  categorymap <- trainData[trainData_nov_2018[["Id"]] == category,]
+  dataSet <- raster::extract(stack_nov_2018, categorymap)
+  dataSet <- sapply(dataSet, function(x) {cbind(x, class = rep(categorymap[["Id"]], nrow(x)))})
+  df <- do.call('rbind', dataSet)
+  dfAll_nov_2018 <- rbind(dfAll_nov_2018, df)
+}
+```
+
+```{r}
+dfAll_nov_2018 <- as.data.frame(dfAll_nov_2018)
+dfAll_nov_2018 <- drop_na(dfAll_nov_2018)
+
+modfit_rf_cv_2018 <- train(as.factor(class)~., method = "rf", data = dfAll_nov_2018, trControl = trainControl(method = "cv", number = 10))
+
+beginCluster()
+preds_rf_nov_2018 <- clusterR(stack_nov_2018, raster::predict, args = list(model = modfit_rf_cv_2018))
+endCluster()
+
+plot(preds_rf_nov_2018)
+
+modfit_rf_cv_2018[["results"]]
+modfit_rf_cv_2018[["resample"]]
+```
+
+```{r}
+# read in the data
+stack_jan_2018 <- brick(here("data", "2018", "01-January", "01_12_2018_stacked"))
+
+trainData_jan_2018 <- shapefile(here("data",  "2018", "01-January", "Indices and DEM", "Training.shp"))
+```
+
+
+```{r warning=FALSE}
+dfAll_jan_2018 = data.frame()
+for (i in 1:length(unique(trainData_jan_2018[["Id"]]))){
+  category <- unique(trainData_jan_2018[["Id"]])[i]
+  categorymap <- trainData[trainData_jan_2018[["Id"]] == category,]
+  dataSet <- raster::extract(stack_jan_2018, categorymap)
+  dataSet <- sapply(dataSet, function(x) {cbind(x, class = rep(categorymap[["Id"]], nrow(x)))})
+  df <- do.call('rbind', dataSet)
+  dfAll_jan_2018 <- rbind(dfAll_jan_2018, df)
+}
+```
+
+```{r}
+dfAll_jan_2018 <- as.data.frame(dfAll_jan_2018)
+dfAll_jan_2018 <- drop_na(dfAll_jan_2018)
+
+modfit_rf_cv_jan_2018 <- train(as.factor(class)~., method = "rf", data = dfAll_jan_2018, trControl = trainControl(method = "cv", number = 10))
+
+beginCluster()
+preds_rf_jan_2018 <- clusterR(stack_jan_2018, raster::predict, args = list(model = modfit_rf_cv_jan_2018))
+endCluster()
+
+plot(preds_rf_jan_2018)
+
+modfit_rf_cv_jan_2018[["results"]]
+modfit_rf_cv_jan_2018[["resample"]]
+```
