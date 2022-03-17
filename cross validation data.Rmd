@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
 
 library(raster)
 library(rgdal)
@@ -74,7 +74,7 @@ trainData_nov_2018 <- shapefile(here("data",  "2018", "11-November", "11-03", "I
 dfAll_nov_2018 = data.frame()
 for (i in 1:length(unique(trainData_nov_2018[["Id"]]))){
   category <- unique(trainData_nov_2018[["Id"]])[i]
-  categorymap <- trainData[trainData_nov_2018[["Id"]] == category,]
+  categorymap <- trainData_nov_2018[trainData_nov_2018[["Id"]] == category,]
   dataSet <- raster::extract(stack_nov_2018, categorymap)
   dataSet <- sapply(dataSet, function(x) {cbind(x, class = rep(categorymap[["Id"]], nrow(x)))})
   df <- do.call('rbind', dataSet)
@@ -100,7 +100,7 @@ modfit_rf_cv_2018[["resample"]]
 
 ```{r}
 # read in the data
-stack_jan_2018 <- brick(here("data", "2018", "01-January", "01_12_2018_stacked"))
+stack_jan_2018 <- brick(here("data", "2018", "01-January", "Indices and DEM", "Jan_2018_stack.tif"))
 
 trainData_jan_2018 <- shapefile(here("data",  "2018", "01-January", "Indices and DEM", "Training.shp"))
 ```
@@ -110,7 +110,7 @@ trainData_jan_2018 <- shapefile(here("data",  "2018", "01-January", "Indices and
 dfAll_jan_2018 = data.frame()
 for (i in 1:length(unique(trainData_jan_2018[["Id"]]))){
   category <- unique(trainData_jan_2018[["Id"]])[i]
-  categorymap <- trainData[trainData_jan_2018[["Id"]] == category,]
+  categorymap <- trainData_jan_2018[trainData_jan_2018[["Id"]] == category,]
   dataSet <- raster::extract(stack_jan_2018, categorymap)
   dataSet <- sapply(dataSet, function(x) {cbind(x, class = rep(categorymap[["Id"]], nrow(x)))})
   df <- do.call('rbind', dataSet)
