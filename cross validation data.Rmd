@@ -21,6 +21,8 @@ library(here)
 set.seed(123)
 ```
 
+November 2020
+
 ```{r}
 # read in the data
 stack_2020 <- brick(here("data", "2020", "11-November", "Nov_2020_stack.tif"))
@@ -62,6 +64,8 @@ modfit_rf_cv[["results"]]
 modfit_rf_cv[["resample"]]
 ```
 
+Novemeber 2018
+
 ```{r}
 # read in the data
 stack_nov_2018 <- brick(here("data", "2018", "11-November", "11-03", "Indices", "Nov_2018_stack.tif"))
@@ -97,6 +101,7 @@ plot(preds_rf_nov_2018)
 modfit_rf_cv_2018[["results"]]
 modfit_rf_cv_2018[["resample"]]
 ```
+January 2018
 
 ```{r}
 # read in the data
@@ -129,6 +134,43 @@ preds_rf_jan_2018 <- clusterR(stack_jan_2018, raster::predict, args = list(model
 endCluster()
 
 plot(preds_rf_jan_2018)
+
+modfit_rf_cv_jan_2018[["results"]]
+modfit_rf_cv_jan_2018[["resample"]]
+```
+
+November 2017
+```{r}
+# read in the data
+stack_nov_2017 <- brick(here("data", "2017", "11-November", "Indices and DEM", "Nov_2017_stack.tif"))
+
+trainData_nov_2017 <- shapefile(here("data",  "2017", "11-November", "Indices and DEM", "Training.shp"))
+```
+
+
+```{r warning=FALSE}
+dfAll_nov_2017= data.frame()
+for (i in 1:length(unique(trainData_nov_2017[["Id"]]))){
+  category <- unique(trainData_nov_2017[["Id"]])[i]
+  categorymap <- trainData_nov_2017[trainData_nov_2017[["Id"]] == category,]
+  dataSet <- raster::extract(stack_nov_2017, categorymap)
+  dataSet <- sapply(dataSet, function(x) {cbind(x, class = rep(categorymap[["Id"]], nrow(x)))})
+  df <- do.call('rbind', dataSet)
+  dfAll_nov_2017 <- rbind(dfAll_nov_2017, df)
+}
+```
+
+```{r}
+dfAll_nov_2017 <- as.data.frame(dfAll_nov_2017)
+dfAll_nov_2017 <- drop_na(dfAll_nov_2017)
+
+modfit_rf_cv_nov_2017 <- train(as.factor(class)~., method = "rf", data = dfAll_nov_2017, trControl = trainControl(method = "cv", number = 10))
+
+beginCluster()
+preds_rf_nov_2017 <- clusterR(stack_nov_2017, raster::predict, args = list(model = modfit_rf_cv_nov_2017))
+endCluster()
+
+plot(preds_rf_nov_2017)
 
 modfit_rf_cv_jan_2018[["results"]]
 modfit_rf_cv_jan_2018[["resample"]]
