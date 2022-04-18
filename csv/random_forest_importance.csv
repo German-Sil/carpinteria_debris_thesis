@@ -1,30 +1,30 @@
 ﻿date,variable,mean_decrease_gini
-11/12/2020,bare soil fraction,62.23848411
-11/12/2020,green veg fraction,58.32629313
-11/12/2020,senesced fraction,45.79174421
-11/12/2020,subtidal fraction,31.21171888
-11/12/2020,shade fraction,46.56224322
-11/12/2020,ndvi,109.5244676
-11/12/2020,mari,99.69056859
-01/12/2018,bare soil fraction,31.06725519
-01/12/2018,green veg fraction,43.72189775
-01/12/2018,senesced fraction,41.79380258
-01/12/2018,subtidal fraction,28.53254619
-01/12/2018,shade fraction,8.95621134
-01/12/2018,ndvi,17.28000542
-01/12/2018,mari,4.872526552
-01/12/2018,digital terrain,23.16705459
-11/13/2018,bare soil fraction,55.0063483
-11/13/2018,green veg fraction,63.00932229
-11/13/2018,senesced fraction,25.90835676
-11/13/2018,subtidal fraction,50.82555626
-11/13/2018,shade fraction,20.55281936
-11/13/2018,ndvi,60.63367459
-11/13/2018,mari,17.13777805
-11/03/2017,bare soil fraction,40.60683974
-11/03/2017,green veg fraction,94.04575985
-11/03/2017,senesced fraction,60.12717787
-11/03/2017,subtidal fraction,23.0759956
-11/03/2017,shade fraction,34.99333887
-11/03/2017,ndvi,83.23421893
-11/03/2017,mari,21.94688075
+Nov-20,bs_fraction,62.23848411
+Nov-20,gv_fraction,58.32629313
+Nov-20,npv_fraction,45.79174421
+Nov-20,subtidal_fraction,31.21171888
+Nov-20,shade_fraction,46.56224322
+Nov-20,ndvi,109.5244676
+Nov-20,mari,99.69056859
+Nov-18,bs_fraction,55.0063483
+Nov-18,gv_fraction,63.00932229
+Nov-18,npv_fraction,25.90835676
+Nov-18,subtidal_fraction,50.82555626
+Nov-18,shade_fraction,20.55281936
+Nov-18,ndvi,60.63367459
+Nov-18,mari,17.13777805
+Jan-18,bs_fraction,31.06725519
+Jan-18,gv_fraction,43.72189775
+Jan-18,npv_fraction,41.79380258
+Jan-18,subtidal_fraction,28.53254619
+Jan-18,shade_fraction,8.95621134
+Jan-18,ndvi,17.28000542
+Jan-18,mari,4.872526552
+Jan-18,digital_terrain,23.16705459
+Nov-17,bs_fraction,40.60683974
+Nov-17,gv_fraction,94.04575985
+Nov-17,npv_fraction,60.12717787
+Nov-17,subtidal_fraction,23.0759956
+Nov-17,shade_fraction,34.99333887
+Nov-17,ndvi,83.23421893
+Nov-17,mari,21.94688075
