@@ -1,0 +1,67 @@
+---
+title: "Tables"
+author: "Germán Silva"
+date: "4/18/2022"
+output: word_document
+always_allow_html: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(here)
+library(flextable)
+library(janitor)
+```
+
+```{r, ft.align="center", tab.cap='Sentinel 2 Band Descriptions', tab.id='tab1', label='tab1'}
+bands <- read_csv(here("csv", "Sentinel 2 Bands.csv"))
+
+set_flextable_defaults(font.size = 10, padding = 4)
+
+regulartable(bands) %>% 
+  theme_zebra() %>% 
+  autofit() %>% 
+  align_text_col(align = "center", header = TRUE) %>% 
+  align(align = "center") %>% 
+  border_outer() %>% 
+  border_inner()
+```
+
+```{r, ft.align="center", tab.cap='Polygon Counts and Decision Metrics Used in the Generation of Training Data', tab.id='tab2', label='tab2'}
+training <- read_csv(here("csv", "training data.csv"))
+
+regulartable(training) %>% 
+  theme_zebra() %>% 
+  align_text_col(align = "center", header = TRUE) %>% 
+  autofit() %>% 
+  align(align = "center") %>% 
+  add_header_lines(values = "Polygon Counts") %>% 
+  border_outer() %>% 
+  border_inner()
+```
+
+```{r, ft.align="center", tab.cap='Variable Importance Across Dates', tab.id='tab3', label='tab3'}
+gini <- read_csv(here("csv", "random_forest_importance.csv"))
+
+gini$mean_decrease_gini <- round(gini$mean_decrease_gini, 2)
+
+gini_wider <- gini %>% 
+  pivot_wider(values_from = mean_decrease_gini, names_from = variable) %>% 
+  rename(Date = date, "Soil Fraction" = bs_fraction, "Green Veg Fraction" = gv_fraction, "Senesced Fraction" = npv_fraction, "Subtidal Fraction" = subtidal_fraction, "Shade Fraction" = shade_fraction, "NDVI" = ndvi, "mARI" = mari, "Digital Terrain" = digital_terrain)
+  
+  
+library(officer)  
+regulartable(gini_wider) %>% 
+  theme_zebra() %>% 
+  align_text_col(align = "center" , header = TRUE) %>% 
+  align(align = "center") %>% 
+  border_outer() %>% 
+  border_inner()
+```
+
+```{r}
+
+```
+

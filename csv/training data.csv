@@ -1,0 +1,7 @@
+Class,Polygon Count,,,,Metric
+,17-Nov,18-Jan,18-Nov,20-Nov,
+Bare soil,10,11,17,13,"High Bare Soil Fractions, Low NDVI, Low mARI"
+High Marsh,5,5,10,7,"High Green Vegetation Fraction, High NDVI, High mARI"
+Mid Marsh,12,7,16,13,"Moderate-High NDVI, Mixed Green Vegetation Fractions and Bare Soil Fractions"
+Senesced,8,5,8,5,"High Non-photosynthetic Vegetation Fractions, Low NDVI, High mARI"
+Subtidal,20,7,21,19,"High Subtidal Fractions, Low NDVI"
