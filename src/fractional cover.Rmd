@@ -1,0 +1,66 @@
+---
+title: "Fractional cover"
+author: "German Silva"
+date: "4/13/2022"
+output: word_document
+---
+
+```{r setup, include=FALSE, warning = FALSE, message = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+library(tidyverse)
+library(here)
+library(sf)
+library(stars)
+library(kableExtra)
+library(patchwork)
+library(raster)
+library(rgdal)
+library(caret)
+library(snow)
+library(tidyverse)
+library(wvtool)
+library(randomForest)
+library(calecopal)
+library(here)
+```
+
+
+```{r}
+fractions <- brick(here("data", "2020", "11-November", "11_12_20_clipped_SMA_20210331T13H45M44S"))
+
+fractionsdf <- rasterdf(fractions)
+
+fractionsdf <- fractionsdf %>% 
+  filter(variable %in% c("BARE.SOIL_fraction", "GV_fraction", "SENESCED_fraction", "SUBTIDAL_fraction", "shade_fraction"),
+         value != 0) %>% 
+  mutate(variable = case_when(
+    variable == "BARE.SOIL_fraction" ~ "Bare Soil Fraction",
+    variable == "GV_fraction" ~ "Green Vegetation Fraction",
+    variable == "SENESCED_fraction" ~ "Senesced Fraction",
+    variable == "SUBTIDAL_fraction" ~ "Subtidal (Water) Fraction",
+    variable == "shade_fraction" ~ "Shade Fraction",
+  ))
+
+ggplot(fractionsdf, aes(x=x, y = y, fill = value))+
+  geom_raster()+
+  facet_wrap(~variable)+
+  coord_quickmap()+
+  annotation_scale()+
+  scale_fill_viridis_c()+
+  labs(x = "",
+       y = "",
+       fill = "% of Pixel",
+       caption = "Fig. 3 An example of fractional cover in November 2020. Scale indicates proportion of pixel that is made up of\nrespective endmembers or shade. Pixels that had a 0% fractional cover for a respective endmember were\nexcluded for visual clarity")+
+  theme(plot.title = element_text(color = "#5b4f41", size = 16, hjust = 0.45),
+        plot.background = element_rect("white"),
+        panel.background = element_rect("#f8f8f8"),
+        panel.grid = element_line(linetype= "longdash", color = "#f0ece1"),
+        axis.text = element_text(color = "#5b4f41", size = 7),
+        axis.title = element_text(color = "#5b4f41"),
+        strip.background = element_rect("white"),
+        axis.line = element_line(color = "#5b4f41"),
+        plot.caption = element_text(size = 9, hjust = 0.5))
+  
+```
+

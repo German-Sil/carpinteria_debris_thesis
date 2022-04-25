@@ -1,0 +1,67 @@
+---
+title: "Area"
+author: "German Silva"
+date: "4/13/2022"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(calecopal)
+library(here)
+```
+
+
+```{r}
+area <- read_csv(here("Change Statistics", "class_area.csv"))
+
+colors <- c(rev(cal_palette("bigsur2", n=5, type = "continuous")))
+
+area$date <- fct_reorder(area$date, area$id)
+
+
+
+ggplot(area, aes(fill= class, y= area_ha, x= date)) +
+  geom_bar(position="fill", stat="identity")+
+  labs(title="Landcover Area by Percent Cover",
+       y="Percent Cover (%)",
+       x="Date",
+       fill = "Landcover")+
+  scale_fill_manual(values = colors)+
+     theme(plot.title = element_text(color = "#5b4f41", size = 16, hjust = 0.45),
+        plot.background = element_rect("white"),
+        panel.background = element_rect("#f8f8f8"),
+        panel.grid = element_line(linetype= "longdash", color = "#f0ece1"),
+        axis.text = element_text(color = "#5b4f41", size = 7, face = "italic"),
+        axis.title = element_text(color = "#5b4f41"),
+        strip.background = element_rect("white"),
+        axis.line = element_line(color = "#5b4f41"),
+        plot.caption = element_text(size = 9, hjust = -0.1))
+
+```
+
+```{r}
+
+area <- drop_na(area)
+
+ggplot() +
+  geom_bar(data = area, aes(fill = class, x = date, y = area_diff),position="dodge", stat="identity")+
+  geom_hline(yintercept = 0, color = "#5b4f41")+
+  labs(title="Landcover Area Difference from Pre-Flow Conditions",
+       y="Area Difference (ha)",
+       x="Date",
+       fill = "Landcover")+
+  scale_fill_manual(values = colors)+
+     theme(plot.title = element_text(color = "#5b4f41", size = 16, hjust = 0.5),
+        plot.background = element_rect("white"),
+        panel.background = element_rect("#f8f8f8"),
+        panel.grid = element_line(linetype= "longdash", color = "#f0ece1"),
+        axis.text = element_text(color = "#5b4f41", size = 7, face = "italic"),
+        axis.title = element_text(color = "#5b4f41"),
+        strip.background = element_rect("white"),
+        axis.line = element_line(color = "#5b4f41"),
+        plot.caption = element_text(size = 9, hjust = -0.1))
+```
+

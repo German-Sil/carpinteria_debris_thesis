@@ -1,0 +1,59 @@
+---
+title: "Spectra Data"
+author: "German Silva"
+date: "4/13/2022"
+output: word_document
+---
+
+```{r setup, include=FALSE, warning = FALSE, message = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+library(tidyverse)
+library(here)
+library(sf)
+library(stars)
+library(kableExtra)
+library(patchwork)
+```
+
+
+```{r, dpi=350, }
+nov_gv <- read_csv(here('data', 'End Products', 'Spectra', 'GV.csv')) %>% 
+  pivot_longer(cols = GV_1:GV_4 ,names_to = "endmember")
+
+nov_soil <- read_csv(here('data', 'End Products', 'Spectra', 'Soil.csv')) %>% 
+  pivot_longer(cols = Soil_1:Soil_4 ,names_to = "endmember")
+
+nov_npv <- read_csv(here('data', 'End Products', 'Spectra', 'NPV.csv'))%>% 
+  pivot_longer(cols = NPV_1:NPV_4 ,names_to = "endmember")
+
+nov_subtidal <- read_csv(here('data', 'End Products', 'Spectra', 'Subtidal.csv'))%>% 
+  pivot_longer(cols = Subtidal_1:Subtidal_8 ,names_to = "endmember")
+
+nov_spectra <- bind_rows(nov_gv, nov_npv, nov_soil, nov_subtidal, .id = "type") %>% 
+  mutate(type = case_when(
+    type == 1 ~ "Green Vegetation",
+    type == 2 ~ "Senesced Vegetation",
+    type == 3 ~ "Bare Soil",
+    type == 4 ~ "Subtidal (Water)"
+  ))
+
+ggplot(nov_spectra, aes(x = Wavelength, y = value, color = endmember))+
+  geom_line()+
+  facet_wrap(~type)+
+  labs(y = "Reflectance",
+       caption = "Fig. 2 Spectral library for November 2017. Axes are (x) wavelength in nm and (y) reflectance values. Spectral\nsignatures for a) non-photosynthetic vegetation, b) green vegetation, c) bare soil, and d) subtidal cover classes")+
+  ggtitle("Novemeber Endmember Spectra")+
+  scale_color_viridis_d(direction = -1) +
+  theme(legend.position = "none",
+        plot.title = element_text(color = "#5b4f41", size = 16, hjust = 0.45),
+        plot.background = element_rect("white"),
+        panel.background = element_rect("#f8f8f8"),
+        panel.grid = element_line(linetype= "longdash", color = "#f0ece1"),
+        axis.text = element_text(color = "#5b4f41"),
+        axis.title = element_text(color = "#5b4f41"),
+        strip.background = element_rect("white"),
+        axis.line = element_line(color = "#5b4f41"),
+        plot.caption = element_text(size = 9, hjust = -0.1))
+```
+

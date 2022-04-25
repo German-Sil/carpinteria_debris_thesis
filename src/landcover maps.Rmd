@@ -1,0 +1,196 @@
+---
+title: "end product mapping"
+author: "German Silva"
+date: "4/13/2022"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(raster)
+library(rgdal)
+library(caret)
+library(snow)
+library(tidyverse)
+library(wvtool)
+library(randomForest)
+library(calecopal)
+library(ggplot2)
+library(ggsn)
+library(ggspatial)
+library(patchwork)
+library(here)
+library(cowplot)
+```
+
+```{r}
+rasterdf <- function(x, aggregate = 1) {
+  resampleFactor <- aggregate        
+  inputRaster <- x    
+  inCols <- ncol(inputRaster)
+  inRows <- nrow(inputRaster)
+  # Compute numbers of columns and rows in the new raster for mapping
+  resampledRaster <- raster(ncol=(inCols / resampleFactor), 
+                            nrow=(inRows / resampleFactor))
+  # Match to the extent of the original raster
+  extent(resampledRaster) <- extent(inputRaster)
+  # Resample data on the new raster
+  y <- resample(inputRaster,resampledRaster,method='ngb')
+
+  # Extract cell coordinates into a data frame
+  coords <- xyFromCell(y, seq_len(ncell(y)))
+  # Extract layer names
+  dat <- stack(as.data.frame(getValues(y)))
+  # Add names - 'value' for data, 'variable' to indicate different raster layers
+  # in a stack
+  names(dat) <- c('value', 'variable')
+  dat <- cbind(coords, dat)
+  dat
+}
+
+class(rasterdf)
+```
+
+
+```{r}
+nov17 <- drop_na(rasterdf(raster(x = here("data", "final predictions", "nov_2017_envi.envi"), xy=TRUE)))
+jan18 <- drop_na(rasterdf(raster(x = here("data", "final predictions", "jan_2018_envi_clipped"), xy=TRUE)))
+nov18 <- drop_na(rasterdf(raster(x = here("data", "final predictions", "nov_2018_envi_clipped"), xy=TRUE)))
+nov20 <- drop_na(rasterdf(raster(x = here("data", "final predictions", "nov_2020_envi.envi"), xy=TRUE)))
+
+nov18 <- filter(nov18, value != 0)
+jan18 <- filter(jan18, value != 0)
+
+nov17 <- nov17 %>% 
+  mutate(value = case_when(
+  value == 1 ~ "Bare Soil",
+  value == 2 ~ "Mid Marsh",
+  value == 3 ~ "High Marsh",
+  value == 4 ~ "Senesced",
+  value == 5 ~ "Water/Subtidal"))
+
+jan18 <- jan18 %>% 
+  mutate(value = case_when(
+  value == 1 ~ "Bare Soil",
+  value == 2 ~ "Mid Marsh",
+  value == 3 ~ "High Marsh",
+  value == 4 ~ "Senesced",
+  value == 5 ~ "Water/Subtidal"))
+
+nov18 <- nov18 %>% 
+  mutate(value = case_when(
+  value == 1 ~ "Bare Soil",
+  value == 2 ~ "Mid Marsh",
+  value == 3 ~ "High Marsh",
+  value == 4 ~ "Senesced",
+  value == 5 ~ "Water/Subtidal"))
+
+nov20 <- nov20 %>% 
+  mutate(value = case_when(
+  value == 1 ~ "Bare Soil",
+  value == 2 ~ "Mid Marsh",
+  value == 3 ~ "High Marsh",
+  value == 4 ~ "Senesced",
+  value == 5 ~ "Water/Subtidal"))
+```
+
+```{r, dpi = 350}
+PreM <- ggplot()+
+  geom_raster(data= nov17, aes(x=x, y=y, fill= value))+
+  scale_fill_manual(values= rev(cal_palette("bigsur2", n=5, type = "continuous")))+
+  labs(title="Pre: November 2017",
+       y="Northing",
+       x="Easting",
+       fill = "Landcover")+
+  coord_quickmap()+
+  annotation_scale()+
+    theme(legend.position = "none",
+      plot.title = element_text(color = "#5b4f41", size = 16, hjust = 0.45),
+        plot.background = element_rect("white"),
+        panel.background = element_rect("#f8f8f8"),
+        panel.grid = element_line(linetype= "longdash", color = "#f0ece1"),
+        axis.text = element_text(color = "#5b4f41", size = 7),
+        axis.title = element_text(color = "#5b4f41"),
+        strip.background = element_rect("white"),
+        axis.line = element_line(color = "#5b4f41"),
+        plot.caption = element_text(size = 9, hjust = -0.1))
+PreM 
+
+DurM <- ggplot()+
+  geom_raster(data= jan18, aes(x=x, y=y, fill=value))+
+  labs(title="During: January 2018",
+       y="Northing",
+       x="Easting",
+       fill = "Landcover")+
+  scale_fill_manual(values= rev(cal_palette("bigsur2", n=5, type = "continuous")))+
+  coord_quickmap()+
+  annotation_scale()+
+    theme(plot.title = element_text(color = "#5b4f41", size = 16, hjust = 0.45),
+        plot.background = element_rect("white"),
+        panel.background = element_rect("#f8f8f8"),
+        panel.grid = element_line(linetype= "longdash", color = "#f0ece1"),
+        axis.text = element_text(color = "#5b4f41", size = 7),
+        axis.title = element_text(color = "#5b4f41"),
+        strip.background = element_rect("white"),
+        axis.line = element_line(color = "#5b4f41"),
+        plot.caption = element_text(size = 9, hjust = -0.1),
+        legend.position = "none")
+DurM
+
+RecM1 <- ggplot()+
+  geom_raster(data= nov18, aes(x=x, y=y, fill= value))+
+  labs(title="Post: November 2018",
+       y="Northing",
+       x="Easting",
+       fill = "Landcover")+
+  scale_fill_manual(values= rev(cal_palette("bigsur2", n=5, type = "continuous")))+
+  coord_quickmap()+
+  annotation_scale()+
+    theme(plot.title = element_text(color = "#5b4f41", size = 16, hjust = 0.6),
+        plot.background = element_rect("white"),
+        panel.background = element_rect("#f8f8f8"),
+        panel.grid = element_line(linetype= "longdash", color = "#f0ece1"),
+        axis.text = element_text(color = "#5b4f41", size = 7),
+        axis.title = element_text(color = "#5b4f41"),
+        strip.background = element_rect("white"),
+        axis.line = element_line(color = "#5b4f41"),
+        plot.caption = element_text(size = 9, hjust = -0.1),
+        legend.position = "none")
+RecM1
+
+RecM2 <- ggplot()+
+  geom_raster(data= nov20, aes(x=x, y=y, fill= value))+
+  labs(title="Post: November 2020",
+      y="Northing",
+       x="Easting",
+       fill = "Landcover")+
+  scale_fill_manual(values= rev(cal_palette("bigsur2", n=5, type = "continuous")))+
+  coord_quickmap()+
+  annotation_scale()+
+    theme(plot.title = element_text(color = "#5b4f41", size = 16, hjust = 0.45),
+        plot.background = element_rect("white"),
+        panel.background = element_rect("#f8f8f8"),
+        panel.grid = element_line(linetype= "longdash", color = "#f0ece1"),
+        axis.text = element_text(color = "#5b4f41", size = 7),
+        axis.title = element_text(color = "#5b4f41"),
+        strip.background = element_rect("white"),
+        axis.line = element_line(color = "#5b4f41"),
+        plot.caption = element_text(size = 9, hjust = -0.1),
+        legend.position = "none")
+RecM2
+
+legend <- get_legend(RecM2+
+                       guides(color = guide_legend(nrow =1))+
+                       theme(legend.position = "right"))
+
+combined_plot <- plot_grid(PreM, DurM, RecM1, RecM2, ncol = 2, labels = "auto", rel_widths = c(2,2,2,2))
+
+plot_grid(combined_plot, legend, ncol = 2, rel_widths = c(5.5,1))
+
+```
+
+```{r}
+
+```
+
