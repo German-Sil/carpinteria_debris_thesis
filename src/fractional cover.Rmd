@@ -47,6 +47,7 @@ ggplot(fractionsdf, aes(x=x, y = y, fill = value))+
   facet_wrap(~variable)+
   coord_quickmap()+
   annotation_scale()+
+  annotation_north_arrow(location = "tr", height = unit(.8, "cm"), width = unit(.5, "cm"), style = north_arrow_orienteering(text_size = 6))+
   scale_fill_viridis_c()+
   labs(x = "",
        y = "",

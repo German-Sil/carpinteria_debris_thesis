@@ -22,6 +22,7 @@ library(ggspatial)
 library(patchwork)
 library(here)
 library(cowplot)
+library(sf)
 ```
 
 ```{r}
@@ -100,11 +101,12 @@ PreM <- ggplot()+
   geom_raster(data= nov17, aes(x=x, y=y, fill= value))+
   scale_fill_manual(values= rev(cal_palette("bigsur2", n=5, type = "continuous")))+
   labs(title="Pre: November 2017",
-       y="Northing",
-       x="Easting",
+      y="",
+       x="",
        fill = "Landcover")+
   coord_quickmap()+
   annotation_scale()+
+  annotation_north_arrow(location = "tr", height = unit(.8, "cm"), width = unit(.5, "cm"), style = north_arrow_orienteering(text_size = 6))+
     theme(legend.position = "none",
       plot.title = element_text(color = "#5b4f41", size = 16, hjust = 0.45),
         plot.background = element_rect("white"),
@@ -120,12 +122,13 @@ PreM
 DurM <- ggplot()+
   geom_raster(data= jan18, aes(x=x, y=y, fill=value))+
   labs(title="During: January 2018",
-       y="Northing",
-       x="Easting",
+      y="",
+       x="",
        fill = "Landcover")+
   scale_fill_manual(values= rev(cal_palette("bigsur2", n=5, type = "continuous")))+
   coord_quickmap()+
   annotation_scale()+
+  annotation_north_arrow(location = "tr", height = unit(.8, "cm"), width = unit(.5, "cm"), style = north_arrow_orienteering(text_size = 6))+
     theme(plot.title = element_text(color = "#5b4f41", size = 16, hjust = 0.45),
         plot.background = element_rect("white"),
         panel.background = element_rect("#f8f8f8"),
@@ -141,12 +144,13 @@ DurM
 RecM1 <- ggplot()+
   geom_raster(data= nov18, aes(x=x, y=y, fill= value))+
   labs(title="Post: November 2018",
-       y="Northing",
-       x="Easting",
+       y="",
+       x="",
        fill = "Landcover")+
   scale_fill_manual(values= rev(cal_palette("bigsur2", n=5, type = "continuous")))+
   coord_quickmap()+
   annotation_scale()+
+  annotation_north_arrow(location = "tr", height = unit(.8, "cm"), width = unit(.5, "cm"), style = north_arrow_orienteering(text_size = 6))+
     theme(plot.title = element_text(color = "#5b4f41", size = 16, hjust = 0.6),
         plot.background = element_rect("white"),
         panel.background = element_rect("#f8f8f8"),
@@ -162,12 +166,13 @@ RecM1
 RecM2 <- ggplot()+
   geom_raster(data= nov20, aes(x=x, y=y, fill= value))+
   labs(title="Post: November 2020",
-      y="Northing",
-       x="Easting",
+      y="",
+       x="",
        fill = "Landcover")+
   scale_fill_manual(values= rev(cal_palette("bigsur2", n=5, type = "continuous")))+
   coord_quickmap()+
   annotation_scale()+
+  annotation_north_arrow(location = "tr", height = unit(.8, "cm"), width = unit(.5, "cm"), style = north_arrow_orienteering(text_size = 6))+
     theme(plot.title = element_text(color = "#5b4f41", size = 16, hjust = 0.45),
         plot.background = element_rect("white"),
         panel.background = element_rect("#f8f8f8"),
@@ -180,6 +185,7 @@ RecM2 <- ggplot()+
         legend.position = "none")
 RecM2
 
+
 legend <- get_legend(RecM2+
                        guides(color = guide_legend(nrow =1))+
                        theme(legend.position = "right"))
@@ -191,6 +197,56 @@ plot_grid(combined_plot, legend, ncol = 2, rel_widths = c(5.5,1))
 ```
 
 ```{r}
+indicators <- read_sf(here("End Products", "Indicators.shp"))
+
+mudflat <- read_sf(here("End Products", "Mud flat extent.shp"))
+
+high_marsh <- read_sf(here("End Products", "High Marsh Extent.shp"))
+
+pre_debris <- read_sf(here("End Products", "Pre Debris Extents.shp"))
+
+overview <- ggplot()+
+  geom_raster(data= nov20, aes(x=x, y=y, fill= value))+
+  geom_sf(data = indicators, color = "black", fill = "NA")+
+  scale_fill_manual(values= rev(cal_palette("bigsur2", n=5, type = "continuous")))+
+  labs(y="",
+       x="",
+       fill = "")+
+  coord_sf()+
+  annotation_scale()+
+  annotation_north_arrow(location = "tr", height = unit(.8, "cm"), width = unit(.5, "cm"), style = north_arrow_orienteering(text_size = 6))+
+    theme(legend.position = "none",
+      plot.title = element_text(color = "#5b4f41", size = 16, hjust = 0.45),
+        plot.background = element_rect("white"),
+        panel.background = element_rect("#f8f8f8"),
+        panel.grid = element_line(linetype= "longdash", color = "#f0ece1"),
+        axis.text = element_text(color = "#5b4f41", size = 7),
+        axis.title = element_text(color = "#5b4f41"),
+        strip.background = element_rect("white"),
+        axis.line = element_line(color = "#5b4f41"),
+        plot.caption = element_text(size = 9, hjust = -0.1))
+
+mudflats <- ggplot()+
+  geom_raster(data= nov20, aes(x=x, y=y, fill= value))+
+  scale_fill_manual(values= rev(cal_palette("bigsur2", n=5, type = "continuous")))+
+  geom_sf(data = mudflat, aes(color = Year_Type), fill = NA)+
+  labs(y="",
+       x="",
+       fill = "")+
+  lims(x = )+
+  coord_sf()+
+  annotation_scale()+
+  annotation_north_arrow(location = "tr", height = unit(.8, "cm"), width = unit(.5, "cm"), style = north_arrow_orienteering(text_size = 6))+
+    theme(legend.position = "none",
+      plot.title = element_text(color = "#5b4f41", size = 16, hjust = 0.45),
+        plot.background = element_rect("white"),
+        panel.background = element_rect("#f8f8f8"),
+        panel.grid = element_line(linetype= "longdash", color = "#f0ece1"),
+        axis.text = element_text(color = "#5b4f41", size = 7),
+        axis.title = element_text(color = "#5b4f41"),
+        strip.background = element_rect("white"),
+        axis.line = element_line(color = "#5b4f41"),
+        plot.caption = element_text(size = 9, hjust = -0.1))
 
 ```
 
