@@ -14,7 +14,7 @@ library(here)
 ```
 
 
-```{r}
+```{r, dpi = 500}
 area <- read_csv(here("Change Statistics", "class_area.csv"))
 
 colors <- c(rev(cal_palette("bigsur2", n=5, type = "continuous")))
@@ -42,7 +42,7 @@ ggplot(area, aes(fill= class, y= area_ha, x= date)) +
 
 ```
 
-```{r}
+```{r, dpi = 500}
 
 area <- drop_na(area)
 

@@ -23,6 +23,7 @@ library(patchwork)
 library(here)
 library(cowplot)
 library(sf)
+library(ggpattern)
 ```
 
 ```{r}
@@ -66,37 +67,37 @@ jan18 <- filter(jan18, value != 0)
 nov17 <- nov17 %>% 
   mutate(value = case_when(
   value == 1 ~ "Bare Soil",
-  value == 2 ~ "Mid Marsh",
-  value == 3 ~ "High Marsh",
+  value == 2 ~ "High Marsh",
+  value == 3 ~ "Mid Marsh",
   value == 4 ~ "Senesced",
   value == 5 ~ "Water/Subtidal"))
 
 jan18 <- jan18 %>% 
   mutate(value = case_when(
   value == 1 ~ "Bare Soil",
-  value == 2 ~ "Mid Marsh",
-  value == 3 ~ "High Marsh",
+  value == 2 ~ "High Marsh",
+  value == 3 ~ "Mid Marsh",
   value == 4 ~ "Senesced",
   value == 5 ~ "Water/Subtidal"))
 
 nov18 <- nov18 %>% 
   mutate(value = case_when(
   value == 1 ~ "Bare Soil",
-  value == 2 ~ "Mid Marsh",
-  value == 3 ~ "High Marsh",
+  value == 2 ~ "High Marsh",
+  value == 3 ~ "Mid Marsh",
   value == 4 ~ "Senesced",
   value == 5 ~ "Water/Subtidal"))
 
 nov20 <- nov20 %>% 
   mutate(value = case_when(
   value == 1 ~ "Bare Soil",
-  value == 2 ~ "Mid Marsh",
-  value == 3 ~ "High Marsh",
+  value == 2 ~ "High Marsh",
+  value == 3 ~ "Mid Marsh",
   value == 4 ~ "Senesced",
   value == 5 ~ "Water/Subtidal"))
 ```
 
-```{r, dpi = 350}
+```{r, dpi = 500, fig.height= 8, fig.width=12}
 PreM <- ggplot()+
   geom_raster(data= nov17, aes(x=x, y=y, fill= value))+
   scale_fill_manual(values= rev(cal_palette("bigsur2", n=5, type = "continuous")))+
@@ -196,22 +197,43 @@ plot_grid(combined_plot, legend, ncol = 2, rel_widths = c(5.5,1))
 
 ```
 
-```{r}
+```{r, dpi = 500}
 indicators <- read_sf(here("End Products", "Indicators.shp"))
 
-mudflat <- read_sf(here("End Products", "Mud flat extent.shp"))
+mudflat <- read_sf(here("End Products", "Mud flat extent.shp")) %>% 
+  filter(Year_Type != "Jan_2018_Mud_Flat") %>% 
+  mutate(Year_Type = case_when(
+    Year_Type == "Nov_2017_Mud_Flat" ~ "Nov 2017 Mud Flat",
+    Year_Type == "Nov_2018_Mud_Flat" ~ "Nov 2018 Mud Flat",
+  ))
 
-high_marsh <- read_sf(here("End Products", "High Marsh Extent.shp"))
+high_marsh <- read_sf(here("End Products", "High Marsh Extent.shp")) %>% 
+  mutate(Year = case_when(
+    Year == 2017 ~ "2017 High Marsh",
+    Year == 2020 ~ "2020 High Marsh"))
 
-pre_debris <- read_sf(here("End Products", "Pre Debris Extents.shp"))
+pre_debris <- read_sf(here("End Products", "Pre Debris Extents.shp")) %>% 
+  filter(Year %in% c("Nov_2017_Soil", "Nov_2017_Mid_Marsh")) %>% 
+  mutate(Year = case_when(
+    Year == "Nov_2017_Soil" ~ "Nov 2017 Soil",
+    Year == "Nov_2017_Mid_Marsh" ~ "Nov 2017 Mid Marsh"
+  ))
 
-overview <- ggplot()+
+post_debris <- read_sf(here("End Products", "Pre Debris Extents.shp")) %>% 
+  filter(Year %in% c("Nov_2020_Soil", "Nov_2020_Mid_Marsh")) %>% 
+  mutate(Year = case_when(
+    Year == "Nov_2020_Soil" ~ "Nov 2020 Soil",
+    Year == "Nov_2020_Mid_Marsh" ~ "Nov 2020 Mid Marsh"
+  ))
+
+ggplot()+
   geom_raster(data= nov20, aes(x=x, y=y, fill= value))+
-  geom_sf(data = indicators, color = "black", fill = "NA")+
+  geom_sf(data = indicators, color = "black", fill = "NA", lwd = 0.75)+
   scale_fill_manual(values= rev(cal_palette("bigsur2", n=5, type = "continuous")))+
   labs(y="",
        x="",
        fill = "")+
+  guides(fill = "none")+
   coord_sf()+
   annotation_scale()+
   annotation_north_arrow(location = "tr", height = unit(.8, "cm"), width = unit(.5, "cm"), style = north_arrow_orienteering(text_size = 6))+
@@ -225,24 +247,59 @@ overview <- ggplot()+
         strip.background = element_rect("white"),
         axis.line = element_line(color = "#5b4f41"),
         plot.caption = element_text(size = 9, hjust = -0.1))
+```
 
-mudflats <- ggplot()+
+```{r, dpi = 500}
+ggplot()+
   geom_raster(data= nov20, aes(x=x, y=y, fill= value))+
   scale_fill_manual(values= rev(cal_palette("bigsur2", n=5, type = "continuous")))+
-  geom_sf(data = mudflat, aes(color = Year_Type), fill = NA)+
+  geom_sf_pattern(data = mudflat, aes(color = Year_Type, pattern = Year_Type), fill = NA, pattern_fill = c("red", "black"), pattern_color = c("red", "black"), lwd= .75) +
+  scale_color_manual(values = c("red", "black"))+
   labs(y="",
        x="",
-       fill = "")+
-  lims(x = )+
-  coord_sf()+
+       pattern= "",
+       color = "")+
+  guides(fill = "none")+
+  xlim(c(266100,266700))+
+  ylim(c(3809700, 3809925))+
+  coord_sf(expand = FALSE)+
   annotation_scale()+
   annotation_north_arrow(location = "tr", height = unit(.8, "cm"), width = unit(.5, "cm"), style = north_arrow_orienteering(text_size = 6))+
-    theme(legend.position = "none",
+    theme(legend.position = "bottom",
       plot.title = element_text(color = "#5b4f41", size = 16, hjust = 0.45),
         plot.background = element_rect("white"),
         panel.background = element_rect("#f8f8f8"),
         panel.grid = element_line(linetype= "longdash", color = "#f0ece1"),
-        axis.text = element_text(color = "#5b4f41", size = 7),
+        axis.text = element_text(color = "#5b4f41", size = 9),
+        axis.title = element_text(color = "#5b4f41"),
+        strip.background = element_rect("white"),
+        axis.line = element_line(color = "#5b4f41"),
+        plot.caption = element_text(size = 9, hjust = -0.1))
+```
+
+```{r, dpi = 500}
+ggplot()+
+  geom_raster(data= nov20, aes(x=x, y=y, fill= value))+
+  scale_fill_manual(values= rev(cal_palette("bigsur2", n=5, type = "continuous")))+
+  geom_sf(data = high_marsh, aes(color = as.factor(Year), linetype = as.factor(Year)), lwd= .75) +
+  scale_color_manual(values = c("red", "black"), labels = c("2017 High Marsh", "2020 High Marsh"))+
+  scale_linetype_manual(values = c("2017 High Marsh" = "solid", "2020 High Marsh" = "dashed"))+
+  labs(y="",
+       x="",
+       color = "",
+       linetype = "")+
+  guides(fill = "none")+
+  xlim(c(266259,266700))+
+  ylim(c(3809790, 3809990))+
+  coord_sf(expand = FALSE)+
+  annotation_scale(pad_y = unit(0.3, "cm"))+
+  annotation_north_arrow(location = "tr", height = unit(.8, "cm"), width = unit(.5, "cm"), style = north_arrow_orienteering(text_size = 6))+
+    theme(legend.position = "bottom",
+      plot.title = element_text(color = "#5b4f41", size = 16, hjust = 0.45),
+        plot.background = element_rect("white"),
+        panel.background = element_rect("#f8f8f8"),
+        panel.grid = element_line(linetype= "longdash", color = "#f0ece1"),
+        axis.text = element_text(color = "#5b4f41", size = 9),
         axis.title = element_text(color = "#5b4f41"),
         strip.background = element_rect("white"),
         axis.line = element_line(color = "#5b4f41"),
@@ -250,3 +307,33 @@ mudflats <- ggplot()+
 
 ```
 
+```{r, dpi = 500}
+ggplot()+
+  geom_raster(data= nov20, aes(x=x, y=y, fill= value))+
+  scale_fill_manual(values= rev(cal_palette("bigsur2", n=5, type = "continuous")))+
+  geom_sf_pattern(data = pre_debris, aes(color = Year), fill = NA, pattern_fill = c("red", "orange"), pattern_color = c("red", "orange"), lwd= .75) +
+  geom_sf(data = post_debris, aes(color = Year), fill = NA, lwd = .75)+
+  scale_color_manual(values = c("red", "orange", "gray", "black"))+
+  labs(y="",
+       x="",
+       pattern= "",
+       pattern_spacing = "",
+       color = "")+
+  guides(fill = "none")+
+  xlim(c(266950,267550))+
+  ylim(c(3809300, 3809700))+
+  coord_sf(expand = FALSE,)+
+  annotation_scale()+
+  annotation_north_arrow(location = "tr", height = unit(.8, "cm"), width = unit(.5, "cm"), style = north_arrow_orienteering(text_size = 6))+
+    theme(legend.position = "bottom",
+      plot.title = element_text(color = "#5b4f41", size = 16, hjust = 0.45),
+        plot.background = element_rect("white"),
+        panel.background = element_rect("#f8f8f8"),
+        panel.grid = element_line(linetype= "longdash", color = "#f0ece1"),
+        axis.text = element_text(color = "#5b4f41", size = 9),
+        axis.title = element_text(color = "#5b4f41"),
+        strip.background = element_rect("white"),
+        axis.line = element_line(color = "#5b4f41"),
+        plot.caption = element_text(size = 9, hjust = -0.1))
+
+```
