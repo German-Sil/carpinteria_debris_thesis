@@ -1,13 +1,3 @@
-	Pre: November 17 - Immediate: January 18							
-	Area (Square Meters)							
-		Initial State						
-	 	Bare Soil	High Marsh	Mid Marsh	Senesced	Subtidal	Row Total	Class Total
-Final State	Unclassified	0	100	0	0	0	100	1122300
-	Bare Soil	63900	19400	116700	32800	45200	278000	278300
-	High Marsh	3300	279100	69800	5200	10700	368100	368100
-	Mid Marsh	3200	39900	63200	100	14900	121300	121300
-	Senesced Vegetation	5100	12900	10500	58200	800	87500	87500
-	Subtidal	10300	10900	43400	2200	32500	99300	99300
-	Class Total	85800	362300	303600	98500	104100	0	0
-	Class Changes	21900	83200	240400	40300	71600	0	0
-	Image Difference	192500	5800	-182300	-11000	-4800	0	0
+version https://git-lfs.github.com/spec/v1
+oid sha256:1e3c0bc933522e606204ab2d7be349c40718a894eb403ce2ca9f3303938f9a9a
+size 665

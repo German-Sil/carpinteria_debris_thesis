@@ -1,23 +1,3 @@
-ENVI
-description = {
-  C:\Users\German\Desktop\Thesis\2018\01-January\Indices and
-  DEM\Jan_class_2018.envi}
-samples = 176
-lines   = 118
-bands   = 1
-header offset = 0
-file type = ENVI Classification
-data type = 4
-interleave = bsq
-sensor type = Unknown
-classes = 6
-class lookup = {
-   0,   0,   0, 255,   0,   0,   0, 255,   0,   0,   0, 255, 255, 255,   0,
-   0, 255, 255}
-class names = {
- Unclassified, Bare Soil, High Marsh, Mid Marsh, Senesced Vegetation, 
- Subtidal}
-byte order = 0
-map info = {UTM, 1.000, 1.000, 266020.000, 3810070.000, 1.0000000000e+001, 1.0000000000e+001, 11, North, D_unknown, units=Meters}
-coordinate system string = {PROJCS["WGS_1984_UTM_Zone_11N",GEOGCS["GCS_WGS_1984",DATUM["D_unknown",SPHEROID["WGS84",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Transverse_Mercator"],PARAMETER["false_easting",500000.0],PARAMETER["false_northing",0.0],PARAMETER["central_meridian",-117.0],PARAMETER["scale_factor",0.9996],PARAMETER["latitude_of_origin",0.0],UNIT["Meter",1.0]]}
-wavelength units = Unknown
+version https://git-lfs.github.com/spec/v1
+oid sha256:ae64246a4731d249924c066d4df95e2fccc088893d15c417fff3d3edbfabb0a3
+size 1095

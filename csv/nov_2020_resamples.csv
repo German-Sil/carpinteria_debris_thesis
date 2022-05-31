@@ -1,11 +1,3 @@
-Date,Accuracy,Kappa,Resample
-Nov-20,1,1,Fold02
-Nov-20,0.948275862,0.934065934,Fold01
-Nov-20,1,1,Fold03
-Nov-20,0.913793103,0.890607318,Fold06
-Nov-20,1,1,Fold05
-Nov-20,1,1,Fold04
-Nov-20,0.965517241,0.956193353,Fold07
-Nov-20,0.95,0.93621545,Fold10
-Nov-20,0.948275862,0.933840304,Fold09
-Nov-20,0.983333333,0.978865798,Fold08
+version https://git-lfs.github.com/spec/v1
+oid sha256:032ff3119c41df702d31babdfff737f2ae9fafd935ab1a1dcc5aa3213a76aade
+size 332

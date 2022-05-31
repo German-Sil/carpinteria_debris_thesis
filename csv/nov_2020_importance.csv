@@ -1,8 +1,3 @@
-date,layer,MeanDecreaseGini
-12-Nov,bare soil fraction,62.23848411
-12-Nov,green veg fraction,58.32629313
-12-Nov,senesced fraction,45.79174421
-12-Nov,subtidal fraction,31.21171888
-12-Nov,shade fraction,46.56224322
-12-Nov,ndvi,109.5244676
-12-Nov,mari,99.69056859
+version https://git-lfs.github.com/spec/v1
+oid sha256:f398ed22477a318485731df61febb3273daca354baa2cd26dcb4959d845a895c
+size 268

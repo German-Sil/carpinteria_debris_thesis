@@ -1,6 +1,3 @@
-Date,Class,Producer's Error,User's Error,1,2,3,4,5
-Nov-20,Bare Soil,0.012820513,0.06097561,77,0,2,1,2
-Nov-20,High Marsh,0.011428571,0.005747126,0,173,1,0,0
-Nov-20,Mid Marsh,0.064,0.071428571,0,2,117,0,7
-Nov-20,Senesced,0.009259259,0,0,0,0,107,0
-Nov-20,Subtidal/Water,0.089108911,0.06122449,1,0,5,0,92
+version https://git-lfs.github.com/spec/v1
+oid sha256:333591675e15b2e7edcb80132446c81dcfe2e58b5d360d0a57338aa60e2cde39
+size 307

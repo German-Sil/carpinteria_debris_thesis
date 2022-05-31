@@ -1,13 +1,3 @@
-﻿,Nov-17,Jan-18,Nov-18,Nov-20,,,
-Soil Fractions,55.01464,33.663458,41.94955,65.65641,,,
-Vegetation Fractions,61.43023,37.73596,82.28978,58.39768,,,
-Senesced Fractions,25.65853,34.216752,54.36208,43.69825,,,
-Subtidal Fractions,50.03128,23.627801,19.12339,30.01677,,,
-Shade Fractions,20.33924,14.814905,29.50984,46.47726,,,
-NDVI,62.94349,19.615164,79.39682,109.51352,,,
-mARI,16.82007,9.653633,53.44834,98.56566,,,
-Bare Surface Model,,25.994926,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
-,,,,,,,
+version https://git-lfs.github.com/spec/v1
+oid sha256:44cd07e17add22dd8cf8cb3dbf3ced3ab85b0bee932bc52c9b738972ee6d3253
+size 494
